@@ -68,7 +68,7 @@ public class ToolPath
                 theta1_vector.add(arm.get_theta1()*180/Math.PI);
                 theta2_vector.add(arm.get_theta2()*180/Math.PI);
                 if (p0.get_pen()){
-                  pen_vector.add(1300);
+                  pen_vector.add(1500);
                 } else {
                   pen_vector.add(1000);
                 }
@@ -107,13 +107,12 @@ public class ToolPath
         // for each angle
         for (int i = 0 ; i < theta1_vector.size();i++) {
             arm.set_angles(theta1_vector.get(i), theta2_vector.get(i));
-            pwm1_vector.add((int) (((theta1_vector.get(i)) * 10.4684231172) + 242.0302693515));
-            pwm2_vector.add((int) (((theta2_vector.get(i)) * 10.3817235396) + 855.3181029497));
+            pwm1_vector.add((int) (((theta1_vector.get(i)) * 10.4684231172) + 242.0302693515) * -1);
+            pwm2_vector.add((int) (((theta2_vector.get(i)) * 10.3817235396) + 855.3181029497) * -1);
             UI.println("Position 1 : " + pwm1_vector.get(i) + " , Position 2 : " + pwm2_vector.get(i));
         }
 
         UI.println("Convertion complete");
-
     }
     
     // save file with motor control values

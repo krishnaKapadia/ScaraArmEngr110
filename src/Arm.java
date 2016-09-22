@@ -161,6 +161,7 @@ public class Arm
         yt = yt_new;
         valid_state = true;
 
+        //Motor 1
         double dx1 = xt - xm1;
         double dy1 = yt - ym1;
 
@@ -171,7 +172,7 @@ public class Arm
         double d1 = Math.sqrt(Math.pow(dx1, 2) + Math.pow(dy1, 2));
 
         double l1 = d1 / 2;
-        double h1 = Math.sqrt(Math.pow(r, 2) - Math.pow(d1, 2) /4);
+        double h1 = Math.sqrt(Math.pow(r, 2) - Math.pow(d1, 2) / 4);
 
         if (d1 > 2 * r){
             UI.println("Arm 1 - can not reach");
@@ -190,6 +191,8 @@ public class Arm
             UI.println("Angle 1 - invalid");
             return;
         }
+
+        //Motor 2
         
         double dx2 = xt - xm2;
         double dy2 = yt - ym2;
@@ -217,10 +220,10 @@ public class Arm
 
         if ((theta2 > 0) || (theta2 <- Math.PI)){
             valid_state = false;
-            UI.println("Ange 2 -invalid");
+            UI.println("Angle 2 - invalid");
             return;
         }
-        
+
         //UI.printf("xt:%3.1f, yt:%3.1f\n",xt,yt);
         //UI.printf("theta1:%3.1f, theta2:%3.1f\n",theta1*180/Math.PI,theta2*180/Math.PI);
         return;
