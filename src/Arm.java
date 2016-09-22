@@ -39,6 +39,9 @@ public class Arm
     // current state of the arm
     private double theta1; // angle of the upper arm
     private double theta2;
+
+    private int pwm1;
+    private int pwm2;
     
     private double xj1;     // positions of the joints
     private double yj1; 
@@ -88,6 +91,8 @@ public class Arm
         UI.drawString(out_str, xm1-2*mr,ym1-mr/2+3*mr);
         out_str=String.format("ym1=%d",ym1);
         UI.drawString(out_str, xm1-2*mr,ym1-mr/2+4*mr);
+        out_str=String.format("pwm1=%d",pwm1);
+        UI.drawString(out_str, xm1-2*mr,ym1-mr/2+5*mr);
         // ditto for second motor                
         out_str = String.format("t2=%3.1f",theta2*180/Math.PI);
         UI.drawString(out_str, xm2+2*mr,ym2-mr/2+2*mr);
@@ -95,6 +100,8 @@ public class Arm
         UI.drawString(out_str, xm2+2*mr,ym2-mr/2+3*mr);
         out_str=String.format("ym2=%d",ym2);
         UI.drawString(out_str, xm2+2*mr,ym2-mr/2+4*mr);
+        out_str=String.format("pwm2=%d",pwm2);
+        UI.drawString(out_str, xm2-2*mr,ym1-mr/2+5*mr);
         // draw Field Of View
         UI.setColor(Color.GRAY);
         UI.drawRect(0,0,640,480);
@@ -224,9 +231,15 @@ public class Arm
             return;
         }
 
+        this.pwmValues();
         //UI.printf("xt:%3.1f, yt:%3.1f\n",xt,yt);
         //UI.printf("theta1:%3.1f, theta2:%3.1f\n",theta1*180/Math.PI,theta2*180/Math.PI);
-        return;
+        //return;
+    }
+
+    public void pwmValues(){
+        pwm1 = (int) ((((theta1) * 10.4684231172) + 242.0302693515) * -1);
+        pwm2 = (int) ((((theta2) * 10.3817235396) + 855.3181029497) * -1);
     }
     
     // returns angle of motor 1
