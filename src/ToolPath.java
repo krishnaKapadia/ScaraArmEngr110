@@ -75,6 +75,8 @@ public class ToolPath
             }
         }
 
+        this.convert_angles_to_pwm(arm, fname);
+
     }
     
     public void save_angles(String fname){
@@ -112,15 +114,17 @@ public class ToolPath
             pwm2_vector.add((int) (((theta2_vector.get(i)) * 10.3817235396) + 855.3181029497));
         }
 
+        this.save_pwm_file(fname);
+
     }
     
     // save file with motor control values
     public void save_pwm_file(String fname){
 
-        for ( int i = 0 ; i < pwm1_vector.size(); i++){
-            UI.printf(" m1=%3.1d m2=%3.1d pen=%d\n",
-                    pwm1_vector.get(i), pwm2_vector.get(i), pwm3_vector.get(i)); //Do i need to change the formatting string values
-        }
+//        for ( int i = 0 ; i < pwm1_vector.size(); i++){
+//            UI.printf(" m1=%3.1d m2=%3.1d pen=%d\n",
+//                    pwm1_vector.get(i), pwm2_vector.get(i), pwm3_vector.get(i)); //Do i need to change the formatting string values
+//        }
 
         try {
             //Whatever the file path is.
@@ -130,8 +134,7 @@ public class ToolPath
             Writer w = new BufferedWriter(osw);
             String str_out;
             for (int i = 1; i < pwm1_vector.size(); i++){
-                str_out = String.format("%3.1d,%3.1d,%d\n",
-                        pwm1_vector.get(i), pwm2_vector.get(i), pwm3_vector.get(i));
+                str_out = String.format("%d,%d,%d\n", pwm1_vector.get(i), pwm2_vector.get(i), pwm3_vector.get(i));
                 w.write(str_out);
             }
             w.close();

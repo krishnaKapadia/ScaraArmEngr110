@@ -143,9 +143,9 @@ public class Main{
         state = 0;
         String fname = UIFileChooser.save();
         tool_path.convert_drawing_to_angles(drawing, arm, fname);
-        //TEst
-        tool_path.convert_angles_to_pwm(arm, fname);
-        tool_path.save_pwm_file(fname);
+//        //Test
+//        tool_path.convert_angles_to_pwm(arm, fname);
+//        tool_path.save_pwm_file(fname);
     }
     
     
