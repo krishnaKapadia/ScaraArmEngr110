@@ -68,15 +68,12 @@ public class ToolPath
                 theta1_vector.add(arm.get_theta1()*180/Math.PI);
                 theta2_vector.add(arm.get_theta2()*180/Math.PI);
                 if (p0.get_pen()){
-                  pen_vector.add(1);
+                  pen_vector.add(1300);
                 } else {
-                  pen_vector.add(0);
+                  pen_vector.add(1000);
                 }
             }
         }
-
-        this.convert_angles_to_pwm(arm, fname);
-
     }
     
     public void save_angles(String fname){
@@ -108,23 +105,20 @@ public class ToolPath
     // into sequence of motor signals
     public void convert_angles_to_pwm(Arm arm, String fname){
         // for each angle
-        for (int i=0 ; i < theta1_vector.size();i++) {
+        for (int i = 0 ; i < theta1_vector.size();i++) {
             arm.set_angles(theta1_vector.get(i), theta2_vector.get(i));
             pwm1_vector.add((int) (((theta1_vector.get(i)) * 10.4684231172) + 242.0302693515));
             pwm2_vector.add((int) (((theta2_vector.get(i)) * 10.3817235396) + 855.3181029497));
+            UI.println("Position 1 : " + pwm1_vector.get(i) + " , Position 2 : " + pwm2_vector.get(i));
         }
 
-        this.save_pwm_file(fname);
+        UI.println("Convertion complete");
 
     }
     
     // save file with motor control values
     public void save_pwm_file(String fname){
-
-//        for ( int i = 0 ; i < pwm1_vector.size(); i++){
-//            UI.printf(" m1=%3.1d m2=%3.1d pen=%d\n",
-//                    pwm1_vector.get(i), pwm2_vector.get(i), pwm3_vector.get(i)); //Do i need to change the formatting string values
-//        }
+        UI.println(pwm1_vector.size());
 
         try {
             //Whatever the file path is.
@@ -133,10 +127,12 @@ public class ToolPath
             OutputStreamWriter osw = new OutputStreamWriter(is);
             Writer w = new BufferedWriter(osw);
             String str_out;
-            for (int i = 1; i < pwm1_vector.size(); i++){
-                str_out = String.format("%d,%d,%d\n", pwm1_vector.get(i), pwm2_vector.get(i), pwm3_vector.get(i));
+
+            for (int i = 0; i < pwm1_vector.size(); i++){
+                str_out = String.format("%d,%d,%d\n", pwm1_vector.get(i), pwm2_vector.get(i), pen_vector.get(i)); //Add pen motor positions
                 w.write(str_out);
             }
+
             w.close();
         } catch (IOException e) {
             UI.println("Problem writing to the file statsTest.txt");
