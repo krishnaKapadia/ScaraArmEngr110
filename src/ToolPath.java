@@ -107,10 +107,10 @@ public class ToolPath
         // for each angle
         for (int i = 0 ; i < theta1_vector.size();i++) {
             arm.set_angles(theta1_vector.get(i), theta2_vector.get(i));
-//            pwm1_vector.add((int) (((theta1_vector.get(i)) * 10.4684231172) + 242.0302693515) * -1);
-//            pwm2_vector.add((int) (((theta2_vector.get(i)) * 10.3817235396) + 855.3181029497) * -1);
-            pwm1_vector.add((int) (((theta1_vector.get(i)) * -1.16) + 1528.76));
-            pwm2_vector.add((int) (((theta2_vector.get(i)) * -10.74) + 827.4));
+            pwm1_vector.add((int) (((theta1_vector.get(i)) * -10.34) + 252.14));
+            pwm2_vector.add((int) (((theta2_vector.get(i)) * -10.36) + 855.52));
+            //pwm1_vector.add((int) (((theta1_vector.get(i)) * -1.16) + 1528.76));
+            //pwm2_vector.add((int) (((theta2_vector.get(i)) * -10.74) + 827.4));
             UI.println("Position 1 : " + pwm1_vector.get(i) + " , Position 2 : " + pwm2_vector.get(i));
         }
 
