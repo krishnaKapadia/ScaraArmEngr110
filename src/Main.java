@@ -52,6 +52,7 @@ public class Main{
                 String str = s.next();
                 UI.println(str);
 
+
                 if (str.contains("password")) ;
                 writer.write("pi\n");
                 writer.flush();
