@@ -43,7 +43,7 @@ public class Main{
     public void sendToPi() {
 
         try {
-            ProcessBuilder pb = new ProcessBuilder("scp", "line.txt", "pi@10.140.66.166:/home/pi/Arm/");
+            ProcessBuilder pb = new ProcessBuilder("script", "test", "scp line.txt pi@10.140.66.166:/home/pi/Arm/");
             Process p = pb.start();
             InputStream stream = p.getInputStream();
             BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(p.getOutputStream()));
@@ -52,9 +52,8 @@ public class Main{
                 String str = s.next();
                 UI.println(str);
 
-
-                if (str.contains("password")) ;
-                writer.write("pi\n");
+                if (str.contains("password"))
+                    writer.write("pi\n");
                 writer.flush();
             }
 
