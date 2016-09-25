@@ -40,6 +40,7 @@ public class Arm
     private double theta1; // angle of the upper arm
     private double theta2;
 
+    //Motor position values
     private int pwm1;
     private int pwm2;
     
@@ -105,6 +106,9 @@ public class Arm
         // draw Field Of View
         UI.setColor(Color.GRAY);
         UI.drawRect(0,0,640,480);
+
+        //Error lines
+        UI.drawLine(0, ym1, 640, ym1);
 
         //Circles
         UI.setLineWidth(2);
@@ -181,7 +185,8 @@ public class Arm
         double l1 = d1 / 2;
         double h1 = Math.sqrt(Math.pow(r, 2) - Math.pow(d1, 2) / 4);
 
-        if (d1 > 2 * r){
+        //Handels error locations such as arm not reaching or angle is greater than 180 degrees
+        if (d1 > 2 * r || xj1 > (xm1 + r)){
             UI.println("Arm 1 - can not reach");
             valid_state = false;
             return;
@@ -238,8 +243,8 @@ public class Arm
     }
 
     public void pwmValues(){
-        pwm1 = (int) ((((theta1) * 10.4684231172) + 242.0302693515) * -1);
-        pwm2 = (int) ((((theta2) * 10.3817235396) + 855.3181029497) * -1);
+        pwm1 = (int) ((((theta1) * -10.34) + 252.14));
+        pwm2 = (int) ((((theta2) * -10.36) + 855.52));
     }
     
     // returns angle of motor 1
@@ -267,7 +272,6 @@ public class Arm
     // ditto for motor 2
     public int get_pwm2(){
         int pwm = (int) ((10.3817235396*theta2)+855.3181029497);
-        //pwm = (int)(pwm2_90 + (theta2 - 90)*pwm2_slope);
         return pwm;
     }
     

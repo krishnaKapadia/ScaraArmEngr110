@@ -26,19 +26,40 @@ public class Main{
         UI.addButton("Load path XY", this::load_xy);
         UI.addButton("Save path Ang", this::save_ang);
         UI.addButton("Load path Ang:Play", this::load_ang);
-                
-       // UI.addButton("Quit", UI::quit);
+        UI.addButton("Send to PI", this::sendToPi);
+        UI.addButton("Quit", UI::quit);
         UI.setMouseMotionListener(this::doMouse);
         UI.setKeyListener(this::doKeys);
 
 
-        //ServerSocket serverSocket = new ServerSocket(22); 
-        
+        //ServerSocket serverSocket = new ServerSocket(22);
         this.arm = new Arm();
         this.drawing = new Drawing();
         this.tool_path = new ToolPath();
         this.run();
         arm.draw();
+    }
+
+    public void sendToPi() {
+
+        try {
+            ProcessBuilder pb = new ProcessBuilder("scp", "line.txt", "pi@10.140.66.166:/home/pi/Arm/");
+            Process p = pb.start();
+            InputStream stream = p.getInputStream();
+            BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(p.getOutputStream()));
+            Scanner s = new Scanner(stream);
+            while (p.isAlive()) {
+                String str = s.next();
+                UI.println(str);
+
+                if (str.contains("password")) ;
+                writer.write("pi\n");
+                writer.flush();
+            }
+
+        }catch(Exception e){
+            UI.println(e);
+        }
     }
     
     public void doKeys(String action){
@@ -86,7 +107,7 @@ public class Main{
         }
         
         // add point
-        if (   (state == 2) &&(action.equals("clicked"))){
+        if ((state == 2) &&(action.equals("clicked"))){
             // add point(pen down) and draw
             UI.printf("Adding point x=%f y=%f\n",x,y);
             drawing.add_point_to_path(x,y,true); // add point with pen down
@@ -98,7 +119,7 @@ public class Main{
         }
         
         
-        if (   (state == 3) &&(action.equals("clicked"))){
+        if ((state == 3) &&(action.equals("clicked"))){
             // add point and draw
             //UI.printf("Adding point x=%f y=%f\n",x,y);
             drawing.add_point_to_path(x,y,false); // add point wit pen up

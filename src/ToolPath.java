@@ -56,19 +56,19 @@ public class ToolPath
     public void convert_drawing_to_angles(Drawing drawing, Arm arm, String fname){
 
         // for all points of the drawing...
-        for (int i = 0;i < drawing.get_drawing_size()-1;i++){
+        for (int i = 0;i < drawing.get_drawing_size() - 1; i++){
             // take two points
             PointXY p0 = drawing.get_drawing_point(i);
-            PointXY p1 = drawing.get_drawing_point(i+1);
+            PointXY p1 = drawing.get_drawing_point(i + 1);
             // break line between points into segments: n_steps of them
             for ( int j = 0 ; j< n_steps;j++) { // break segment into n_steps str. lines
                 double x = p0.get_x() + j*(p1.get_x()-p0.get_x())/n_steps;
                 double y = p0.get_y() + j*(p1.get_y()-p0.get_y())/n_steps;
                 arm.inverseKinematic(x, y);
-                theta1_vector.add(arm.get_theta1()*180/Math.PI);
-                theta2_vector.add(arm.get_theta2()*180/Math.PI);
+                theta1_vector.add(arm.get_theta1() * 180/Math.PI);
+                theta2_vector.add(arm.get_theta2() * 180/Math.PI);
                 if (p0.get_pen()){
-                  pen_vector.add(1500);
+                  pen_vector.add(1550);
                 } else {
                   pen_vector.add(1000);
                 }
@@ -105,7 +105,7 @@ public class ToolPath
     // into sequence of motor signals
     public void convert_angles_to_pwm(Arm arm, String fname){
         // for each angle
-        for (int i = 0 ; i < theta1_vector.size();i++) {
+        for (int i = 0 ; i < theta1_vector.size(); i++) {
             arm.set_angles(theta1_vector.get(i), theta2_vector.get(i));
             pwm1_vector.add((int) (((theta1_vector.get(i)) * -10.34) + 252.14));
             pwm2_vector.add((int) (((theta2_vector.get(i)) * -10.36) + 855.52));
