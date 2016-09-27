@@ -11,6 +11,8 @@ public class Main{
     private Arm arm;
     private Drawing drawing;
     private ToolPath tool_path;
+    
+    private String fName = "";
     // state of the GUI
     private int state; // 0 - nothing
                        // 1 - inverse point kinematics - point
@@ -27,10 +29,11 @@ public class Main{
         UI.addButton("Save path Ang", this::save_ang);
         UI.addButton("Load path Ang:Play", this::load_ang);
         UI.addButton("Send to PI", this::sendToPi);
+        UI.addButton("Draw Circle", this::drawCircle);
+        UI.addButton("Get Image", this::showImage);
         UI.addButton("Quit", UI::quit);
         UI.setMouseMotionListener(this::doMouse);
         UI.setKeyListener(this::doKeys);
-
 
         //ServerSocket serverSocket = new ServerSocket(22);
         this.arm = new Arm();
@@ -38,6 +41,23 @@ public class Main{
         this.tool_path = new ToolPath();
         this.run();
         arm.draw();
+    }
+    
+    public void drawCircle(){
+        int radius = 50;
+        double centerX = 334;
+        double centerY = 122;
+        
+        for(int i = 0; i <= 380; i += 14){
+            double X = centerX + radius * Math.cos((((double) i/180) * Math.PI));
+            double Y = centerY + radius * Math.sin((((double) i/180) * Math.PI));
+            drawing.add_point_to_path(X, Y, true);
+        }
+        
+    }
+    
+    public void showImage(){
+        fName = UIFileChooser.save();
     }
 
     public void sendToPi() {
@@ -67,8 +87,6 @@ public class Main{
         if (action.equals("b")) {
             // break - stop entering the lines
             state = 3;
-            //
-          
         }
                
     }
@@ -78,12 +96,12 @@ public class Main{
          //UI.printf("Mouse Click:%s, state:%d  x:%3.1f  y:%3.1f\n",
          //   action,state,x,y);
         UI.clearGraphics();
+        if(fName != "") UI.drawImage(fName, 164, 59);
         String out_str=String.format("%3.1f %3.1f",x,y);
         UI.drawString(out_str, x+10,y+10);
          // 
          if ((state == 1)&&(action.equals("clicked"))){
           // draw as 
-          
           arm.inverseKinematic(x,y);
           arm.draw();
           return;
@@ -130,7 +148,6 @@ public class Main{
             drawing.print_path();
             state = 2;
         }
-        
         
     }
    

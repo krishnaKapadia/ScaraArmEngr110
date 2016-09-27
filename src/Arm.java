@@ -116,6 +116,9 @@ public class Arm
         UI.drawOval(xt - r, yt - r, 2 * r, 2 * r);
         UI.drawOval(xm1 - r, ym1 - r, 2 * r, 2 * r);
         UI.drawOval(xm2 - r, ym2 - r, 2 * r, 2 * r);
+        
+        //Wrong esitmation circle
+        UI.drawOval(120, 65, 558 - 144, 213 + 64);
          
        // it can b euncommented later when
        // kinematic equations are derived
@@ -202,6 +205,11 @@ public class Arm
             valid_state = false;
             UI.println("Angle 1 - invalid");
             return;
+        }
+        
+        if(yt >= (yj2 + ((yj1-yj2) / 2) - 10)){
+            valid_state = false;
+            UI.println("Singularity");
         }
 
         //Motor 2
